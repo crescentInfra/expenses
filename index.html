@@ -262,11 +262,13 @@ a.btn{text-decoration:none;}
 <!-- ════ EXPENSES ════ -->
 <div class="pnl" id="p-exp">
   <!-- MILEAGE -->
+  <div id="milSection">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
     <span class="sl" style="margin:0;">Mileage</span>
     <button class="btn btn-bl btn-sm" style="width:auto;margin:0;padding:8px 14px;" onclick="openMil()">+ Add</button>
   </div>
   <div id="milList"></div>
+  </div>
   <!-- SUBSISTENCE -->
   <div style="display:flex;justify-content:space-between;align-items:center;margin:14px 0 8px;">
     <span class="sl" style="margin:0;">Subsistence</span>
@@ -342,23 +344,6 @@ a.btn{text-decoration:none;}
     <button class="btn btn-lt btn-sm" style="margin-top:10px;" onclick="resetSubsRates()">Reset to Revenue Ireland defaults</button>
   </div>
 
-  <div class="sl">Customise Mileage Rates (€/km)</div>
-  <div class="card" id="milRatesCard">
-    <div class="rate-row"><div class="rate-lbl">Up to 1200cc — Band 1 (0–1500 km)</div><input class="rate-inp" id="mr_1a" type="number" step="0.0001" oninput="saveRates()"></div>
-    <div class="rate-row"><div class="rate-lbl">Up to 1200cc — Band 2 (1501–5500 km)</div><input class="rate-inp" id="mr_1b" type="number" step="0.0001" oninput="saveRates()"></div>
-    <div class="rate-row"><div class="rate-lbl">Up to 1200cc — Band 3 (5501–25000 km)</div><input class="rate-inp" id="mr_1c" type="number" step="0.0001" oninput="saveRates()"></div>
-    <div class="rate-row"><div class="rate-lbl">Up to 1200cc — Band 4 (25001+ km)</div><input class="rate-inp" id="mr_1d" type="number" step="0.0001" oninput="saveRates()"></div>
-    <div class="rate-row"><div class="rate-lbl">1201–1500cc / EV — Band 1</div><input class="rate-inp" id="mr_2a" type="number" step="0.0001" oninput="saveRates()"></div>
-    <div class="rate-row"><div class="rate-lbl">1201–1500cc / EV — Band 2</div><input class="rate-inp" id="mr_2b" type="number" step="0.0001" oninput="saveRates()"></div>
-    <div class="rate-row"><div class="rate-lbl">1201–1500cc / EV — Band 3</div><input class="rate-inp" id="mr_2c" type="number" step="0.0001" oninput="saveRates()"></div>
-    <div class="rate-row"><div class="rate-lbl">1201–1500cc / EV — Band 4</div><input class="rate-inp" id="mr_2d" type="number" step="0.0001" oninput="saveRates()"></div>
-    <div class="rate-row"><div class="rate-lbl">1501cc and over — Band 1</div><input class="rate-inp" id="mr_3a" type="number" step="0.0001" oninput="saveRates()"></div>
-    <div class="rate-row"><div class="rate-lbl">1501cc and over — Band 2</div><input class="rate-inp" id="mr_3b" type="number" step="0.0001" oninput="saveRates()"></div>
-    <div class="rate-row"><div class="rate-lbl">1501cc and over — Band 3</div><input class="rate-inp" id="mr_3c" type="number" step="0.0001" oninput="saveRates()"></div>
-    <div class="rate-row"><div class="rate-lbl">1501cc and over — Band 4</div><input class="rate-inp" id="mr_3d" type="number" step="0.0001" oninput="saveRates()"></div>
-    <div class="rate-row"><div class="rate-lbl">Bicycle (flat rate/km)</div><input class="rate-inp" id="mr_bk" type="number" step="0.0001" oninput="saveRates()"></div>
-    <button class="btn btn-lt btn-sm" style="margin-top:10px;" onclick="resetMilRates()">Reset to Revenue Ireland defaults</button>
-  </div>
 
   <div class="sl">Data</div>
   <div class="card">
@@ -408,30 +393,8 @@ a.btn{text-decoration:none;}
     <div class="f"><label>From</label><input id="ml_from" placeholder="Starting location"></div>
     <div class="f"><label>To</label><input id="ml_to" placeholder="Destination"></div>
     <div class="f"><label>Purpose *</label><input id="ml_p" placeholder="e.g. Client visit"></div>
-    <div class="r2">
-      <div class="f"><label>KM There</label><input type="number" id="ml_kt" min="0" step="0.1" inputmode="decimal" placeholder="0.0" oninput="milPrev()"></div>
-      <div class="f"><label>KM Back</label><input type="number" id="ml_kb" min="0" step="0.1" inputmode="decimal" placeholder="0.0" oninput="milPrev()"></div>
-    </div>
-    <div class="f"><label>Engine Category</label>
-      <select id="ml_eng" onchange="milPrev()">
-        <option>Up to 1200cc</option>
-        <option>1201 to 1500cc / EV</option>
-        <option>1501cc and over</option>
-        <option>Bicycle</option>
-      </select>
-    </div>
-    <div class="f"><label>Annual KM Band</label>
-      <select id="ml_band" onchange="milPrev()">
-        <option>0 to 1500 km</option>
-        <option>1501 to 5500 km</option>
-        <option>5501 to 25000 km</option>
-        <option>25001 km+</option>
-      </select>
-    </div>
-    <div class="prev">
-      <div class="l">Total KM &nbsp;·&nbsp; Rate &nbsp;·&nbsp; Amount</div>
-      <div class="v" id="ml_prev">0 km · €0.0000/km · €0.00</div>
-    </div>
+    <div class="f"><label>Total KM (optional)</label><input type="number" id="ml_km" min="0" step="0.1" inputmode="decimal" placeholder="0.0"></div>
+    <div class="f"><label>Amount € *</label><input type="number" id="ml_a" min="0" step="0.01" inputmode="decimal" placeholder="0.00"></div>
     <button class="btn btn-dk" onclick="saveMil()">Save Journey</button>
     <input type="hidden" id="ml_idx">
   </div>
@@ -487,17 +450,11 @@ document.getElementById('logo').src='data:image/png;base64,iVBORw0KGgoAAAANSUhEU
 
 /* ===== DEFAULT RATES ===== */
 var DEF_SUBS={'Short day 5 to 10 hours':19.25,'Long day over 10 hours':46.17,'Overnight first 14 nights':205.53,'Overnight next 14 nights':184.98,'Overnight next 28 nights':102.76};
-var DEF_MIL={
-  'Up to 1200cc':{'0 to 1500 km':0.4180,'1501 to 5500 km':0.7264,'5501 to 25000 km':0.3178,'25001 km+':0.2056},
-  '1201 to 1500cc / EV':{'0 to 1500 km':0.4340,'1501 to 5500 km':0.7918,'5501 to 25000 km':0.3179,'25001 km+':0.2385},
-  '1501cc and over':{'0 to 1500 km':0.5182,'1501 to 5500 km':0.9063,'5501 to 25000 km':0.3922,'25001 km+':0.2587},
-  'Bicycle':{'0 to 1500 km':0.08,'1501 to 5500 km':0.08,'5501 to 25000 km':0.08,'25001 km+':0.08}
-};
 
 /* ===== STATE ===== */
 var MIL=[], SUB=[], MISC=[];
 var cfg={name:'',email:'',mgr:'',helen:'',showStatus:false,showMileage:true};
-var customSubs={}, customMil={};
+var customSubs={};
 
 /* ===== HELPERS ===== */
 function money(n){return '€'+(Number(n||0)).toFixed(2);}
@@ -508,7 +465,6 @@ function today(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()
 function uid(){return 'CLM-'+today().replace(/-/g,'')+'-'+Math.floor(1000+Math.random()*9000);}
 function refOf(id){return id?id.replace('CLM-','').slice(-8):'';}
 function getSubs(t){return (customSubs[t]!=null?customSubs[t]:(DEF_SUBS[t]||0));}
-function getMil(eng,band){if(eng==='Bicycle')return customMil['Bicycle']!=null?customMil['Bicycle']:0.08;var tbl=customMil[eng]||(DEF_MIL[eng]||{});return tbl[band]!=null?tbl[band]:(DEF_MIL[eng]?DEF_MIL[eng][band]||0:0);}
 
 /* ===== TOAST ===== */
 var _tt=null;
@@ -522,7 +478,7 @@ function loadCfg(){
     cfg.name=c.name||'';cfg.email=c.email||'';cfg.mgr=c.mgr||'';cfg.helen=c.helen||'';
     cfg.showStatus=!!c.showStatus;cfg.showMileage=c.showMileage!==false;
   }catch(e){}
-  try{var r=JSON.parse(localStorage.getItem('cresc_rates')||'{}');customSubs=r.subs||{};customMil=r.mil||{};}catch(e){}
+  try{var r=JSON.parse(localStorage.getItem('cresc_rates')||'{}');customSubs=r.subs||{};}catch(e){}
 }
 function saveCfgStore(){localStorage.setItem('cresc_cfg',JSON.stringify(cfg));}
 function saveRates(){
@@ -530,44 +486,51 @@ function saveRates(){
   var sk=['r_sd','r_ld','r_o1','r_o2','r_o3'];
   var sn=['Short day 5 to 10 hours','Long day over 10 hours','Overnight first 14 nights','Overnight next 14 nights','Overnight next 28 nights'];
   sk.forEach(function(id,i){var v=parseFloat(val(id));if(!isNaN(v))customSubs[sn[i]]=v;});
-  customMil={};
-  var engs=['Up to 1200cc','1201 to 1500cc / EV','1501cc and over'];
-  var ids=[['mr_1a','mr_1b','mr_1c','mr_1d'],['mr_2a','mr_2b','mr_2c','mr_2d'],['mr_3a','mr_3b','mr_3c','mr_3d']];
-  var bands=['0 to 1500 km','1501 to 5500 km','5501 to 25000 km','25001 km+'];
-  engs.forEach(function(eng,ei){customMil[eng]={};ids[ei].forEach(function(id,bi){var v=parseFloat(val(id));if(!isNaN(v))customMil[eng][bands[bi]]=v;});});
-  var bkv=parseFloat(val('mr_bk'));if(!isNaN(bkv))customMil['Bicycle']=bkv;
-  localStorage.setItem('cresc_rates',JSON.stringify({subs:customSubs,mil:customMil}));
+  localStorage.setItem('cresc_rates',JSON.stringify({subs:customSubs}));
 }
-function resetSubsRates(){customSubs={};localStorage.setItem('cresc_rates',JSON.stringify({subs:customSubs,mil:customMil}));loadRateInputs();toast('Subsistence rates reset','ok');}
-function resetMilRates(){customMil={};localStorage.setItem('cresc_rates',JSON.stringify({subs:customSubs,mil:customMil}));loadRateInputs();toast('Mileage rates reset','ok');}
+function resetSubsRates(){customSubs={};localStorage.setItem('cresc_rates',JSON.stringify({subs:customSubs}));loadRateInputs();toast('Subsistence rates reset','ok');}
 function loadRateInputs(){
   var sn=['Short day 5 to 10 hours','Long day over 10 hours','Overnight first 14 nights','Overnight next 14 nights','Overnight next 28 nights'];
   var sk=['r_sd','r_ld','r_o1','r_o2','r_o3'];
   sk.forEach(function(id,i){setv(id,(customSubs[sn[i]]!=null?customSubs[sn[i]]:DEF_SUBS[sn[i]]).toFixed(2));});
-  var engs=['Up to 1200cc','1201 to 1500cc / EV','1501cc and over'];
-  var ids=[['mr_1a','mr_1b','mr_1c','mr_1d'],['mr_2a','mr_2b','mr_2c','mr_2d'],['mr_3a','mr_3b','mr_3c','mr_3d']];
-  var bands=['0 to 1500 km','1501 to 5500 km','5501 to 25000 km','25001 km+'];
-  engs.forEach(function(eng,ei){ids[ei].forEach(function(id,bi){var def=DEF_MIL[eng][bands[bi]];setv(id,(customMil[eng]&&customMil[eng][bands[bi]]!=null?customMil[eng][bands[bi]]:def).toFixed(4));});});
-  var bkDef=0.08;setv('mr_bk',(customMil['Bicycle']!=null?customMil['Bicycle']:bkDef).toFixed(4));
 }
 
 /* ===== NAV HISTORY ===== */
 var tabHistory=['home'], tabPos=0;
+function anyModalOpen(){
+  var ms=document.querySelectorAll('.modal');
+  for(var i=0;i<ms.length;i++){if(ms[i].classList.contains('on'))return ms[i].id;}
+  return null;
+}
 function go(tab){
-  if(tab===tabHistory[tabPos])return;
-  tabHistory=tabHistory.slice(0,tabPos+1);
-  tabHistory.push(tab);
-  tabPos=tabHistory.length-1;
+  /* record navigation, dropping any forward history */
+  if(tab!==tabHistory[tabPos]){
+    tabHistory=tabHistory.slice(0,tabPos+1);
+    tabHistory.push(tab);
+    tabPos=tabHistory.length-1;
+  }
   _showTab(tab);
 }
-function navBack(){if(tabPos>0){tabPos--;_showTab(tabHistory[tabPos]);}}
-function navFwd(){if(tabPos<tabHistory.length-1){tabPos++;_showTab(tabHistory[tabPos]);}}
+function navBack(){
+  /* if a popup is open, back closes it first */
+  var m=anyModalOpen();
+  if(m){closeModal(m);return;}
+  if(tabPos>0){tabPos--;_showTab(tabHistory[tabPos]);}
+}
+function navFwd(){
+  if(tabPos<tabHistory.length-1){tabPos++;_showTab(tabHistory[tabPos]);}
+}
+function updNavButtons(){
+  /* Back is enabled whenever there's somewhere to go back to, OR a modal is open */
+  var modalOpen=!!anyModalOpen();
+  $('btnBack').disabled=(tabPos<=0)&&!modalOpen;
+  $('btnFwd').disabled=tabPos>=tabHistory.length-1;
+}
 function _showTab(tab){
   var ids=['home','claim','exp','send','more'];
   ids.forEach(function(t){$('p-'+t).classList.remove('on');$('t-'+t).classList.remove('on');});
   $('p-'+tab).classList.add('on');$('t-'+tab).classList.add('on');
-  $('btnBack').disabled=tabPos<=0;
-  $('btnFwd').disabled=tabPos>=tabHistory.length-1;
+  updNavButtons();
   if(tab==='home'){updHome();updAlerts();}
   if(tab==='more'){renderSaved();}
   if(tab==='send'){updSend();}
@@ -576,7 +539,8 @@ function _showTab(tab){
 
 /* ===== MODAL SHIELD (tap outside to close) ===== */
 function shieldClick(e,id){if(e.target===$(id))closeModal(id);}
-function closeModal(id){$(id).classList.remove('on');}
+function openModal(id){$(id).classList.add('on');updNavButtons();}
+function closeModal(id){$(id).classList.remove('on');updNavButtons();}
 
 /* ===== PILL & STATUS ===== */
 function updPill(){
@@ -585,8 +549,7 @@ function updPill(){
 }
 function applySettings(){
   $('statusField').style.display=cfg.showStatus?'':'none';
-  var ms=cfg.showMileage;
-  $('milRatesCard').style.display=ms?'':'none';
+  $('milSection').style.display=cfg.showMileage?'':'none';
   setTog('togStatus',cfg.showStatus);
   setTog('togMileage',cfg.showMileage);
   setv('sName',cfg.name);setv('sEmail',cfg.email);setv('sMgr',cfg.mgr);setv('sHelen',cfg.helen);
@@ -601,26 +564,20 @@ function togSetting(k){cfg[k]=!cfg[k];saveCfgStore();applySettings();}
 function openMil(i){
   setv('ml_idx','');$('milTi').textContent='Add Mileage';
   setv('ml_d',today());setv('ml_from','');setv('ml_to','');setv('ml_p','');
-  setv('ml_kt','');setv('ml_kb','');setv('ml_eng','Up to 1200cc');setv('ml_band','0 to 1500 km');
+  setv('ml_km','');setv('ml_a','');
   if(typeof i==='number'){
     var d=MIL[i];$('milTi').textContent='Edit Mileage';
     setv('ml_idx',i);setv('ml_d',d.date);setv('ml_from',d.from);setv('ml_to',d.to);
-    setv('ml_p',d.purpose);setv('ml_kt',d.kt);setv('ml_kb',d.kb);setv('ml_eng',d.eng);setv('ml_band',d.band);
+    setv('ml_p',d.purpose);setv('ml_km',d.km||'');setv('ml_a',d.amount);
   }
-  milPrev();$('milModal').classList.add('on');
-}
-function milPrev(){
-  var kt=Number(val('ml_kt'))||0,kb=Number(val('ml_kb'))||0,km=kt+kb;
-  var rate=getMil(val('ml_eng'),val('ml_band'));
-  $('ml_prev').textContent=km.toFixed(1)+' km · €'+rate.toFixed(4)+'/km · '+money(km*rate);
+  openModal('milModal');
 }
 function saveMil(){
   if(!val('ml_d')){toast('Enter a date','er');return;}
   if(!val('ml_p')){toast('Enter a purpose','er');return;}
-  var kt=Number(val('ml_kt'))||0,kb=Number(val('ml_kb'))||0,km=kt+kb;
-  var rate=getMil(val('ml_eng'),val('ml_band'));
+  if(!val('ml_a')||Number(val('ml_a'))<=0){toast('Enter an amount','er');return;}
   var d={date:val('ml_d'),from:val('ml_from'),to:val('ml_to'),purpose:val('ml_p'),
-    kt:kt,kb:kb,km:km,eng:val('ml_eng'),band:val('ml_band'),rate:rate,amount:km*rate};
+    km:Number(val('ml_km'))||0,amount:Number(val('ml_a'))};
   var i=val('ml_idx');if(i!=='')MIL[Number(i)]=d;else MIL.push(d);
   closeModal('milModal');renderMil();totals();toast('Mileage saved','ok');
 }
@@ -632,7 +589,7 @@ function renderMil(){
     var div=document.createElement('div');div.className='item';
     div.innerHTML='<div class="item-top"><div class="item-main">'
       +'<div class="item-t">'+(d.from||'—')+' → '+(d.to||'—')+'</div>'
-      +'<div class="item-s">'+d.date+' · '+d.eng+' · '+d.km.toFixed(1)+' km · €'+d.rate.toFixed(4)+'/km</div>'
+      +'<div class="item-s">'+d.date+(d.km?' · '+d.km.toFixed(1)+' km':'')+(d.purpose?' · '+d.purpose:'')+'</div>'
       +'</div><div class="item-amt">'+money(d.amount)+'</div></div>'
       +'<div class="item-acts">'
       +'<button class="btn btn-lt btn-sm" onclick="openMil('+i+')">Edit</button>'
@@ -651,7 +608,7 @@ function openSub(i){
     var d=SUB[i];$('subTi').textContent='Edit Subsistence';
     setv('sb_idx',i);setv('sb_d',d.date);setv('sb_p',d.purpose);setv('sb_dest',d.dest);setv('sb_t',d.type);setv('sb_q',d.qty);
   }
-  subPrev();$('subModal').classList.add('on');
+  subPrev();openModal('subModal');
 }
 function subPrev(){var r=getSubs(val('sb_t')),q=Number(val('sb_q'))||0;$('sb_prev').textContent=money(r*q);}
 function saveSub(){
@@ -688,7 +645,7 @@ function openMisc(i){
     var d=MISC[i];$('miscTi').textContent='Edit Expense';
     setv('mc_idx',i);setv('mc_d',d.date);setv('mc_c',d.cat);setv('mc_ds',d.desc);setv('mc_a',d.amount);setv('mc_r',d.rcpt);
   }
-  $('miscModal').classList.add('on');
+  openModal('miscModal');
 }
 function saveMisc(){
   if(!val('mc_d')){toast('Enter a date','er');return;}
@@ -832,7 +789,7 @@ function buildSummary(forHelen){
   L.push('Period: '+c.start+' to '+c.end);L.push('');
   if(c.mil&&c.mil.length){
     L.push('MILEAGE');
-    c.mil.forEach(function(d){L.push('- '+d.date+' '+d.from+' to '+d.to+' | '+d.km.toFixed(1)+'km | '+money(d.amount)+(d.purpose?' ('+d.purpose+')':''));});
+    c.mil.forEach(function(d){L.push('- '+d.date+' '+d.from+' to '+d.to+(d.km?' | '+d.km.toFixed(1)+'km':'')+' | '+money(d.amount)+(d.purpose?' ('+d.purpose+')':''));});
     L.push('Mileage Total: '+money(c.totals.m));L.push('');
   }
   if(c.sub&&c.sub.length){
@@ -897,7 +854,7 @@ if(cfg.name)setv('cName',cfg.name);
 if(cfg.email)setv('cEmail',cfg.email);
 setv('cStatus','Draft');
 renderMil();renderSub();renderMisc();totals();updPill();updHome();updAlerts();
-$('btnBack').disabled=true;$('btnFwd').disabled=true;
+updNavButtons();
 </script>
 </body>
 </html>
