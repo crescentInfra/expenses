@@ -638,6 +638,7 @@ function _showTab(tab){
   ids.forEach(function(t){$('p-'+t).classList.remove('on');$('t-'+t).classList.remove('on');});
   $('p-'+tab).classList.add('on');$('t-'+tab).classList.add('on');
   updNavButtons();
+  if(tab==='claim'){fillClaimFromCfg(false);}
   if(tab==='home'){updHome();updAlerts();}
   if(tab==='more'){renderSaved();}
   if(tab==='send'){updSend();}
@@ -820,7 +821,8 @@ function updAlerts(){
 /* ===== CLAIM ===== */
 function collectClaim(){
   var t=totals();
-  return {id:val('cId')||uid(),name:val('cName'),addr:val('cAddr'),email:val('cEmail'),dept:val('cDept'),
+  return {id:val('cId')||uid(),name:val('cName')||cfg.name,addr:val('cAddr')||cfg.addr,
+    email:val('cEmail')||cfg.email,dept:val('cDept')||cfg.dept,
     week:val('cWeek'),start:val('cStart'),end:val('cEnd'),status:val('cStatus')||'Draft',notes:val('cNotes'),
     mil:MIL.slice(),sub:SUB.slice(),misc:MISC.slice(),totals:t,updated:new Date().toISOString()};
 }
@@ -995,7 +997,17 @@ function renderSaved(){
 /* ===== SETTINGS ===== */
 function saveSettings(){
   cfg.name=val('sName');cfg.addr=val('sAddr');cfg.dept=val('sDept');cfg.email=val('sEmail');cfg.mgr=val('sMgr');cfg.helen=val('sHelen');
-  saveCfgStore();applySettings();toast('Details saved','ok');
+  saveCfgStore();applySettings();
+  fillClaimFromCfg(true);
+  updHome();
+  toast('Details saved \u2013 applied to your claim','ok');
+}
+/* Fill the claim form from saved details. If force=false, only fills blanks. */
+function fillClaimFromCfg(force){
+  if(force||!val('cName'))setv('cName',cfg.name);
+  if(force||!val('cAddr'))setv('cAddr',cfg.addr);
+  if(force||!val('cDept'))setv('cDept',cfg.dept);
+  if(force||!val('cEmail'))setv('cEmail',cfg.email);
 }
 
 /* ===== EMAIL / SEND ===== */
@@ -1159,10 +1171,7 @@ document.getElementById('dayBody').addEventListener('click',function(e){var t=e.
 loadCfg();
 applySettings();
 setv('cId',uid());
-if(cfg.name)setv('cName',cfg.name);
-if(cfg.addr)setv('cAddr',cfg.addr);
-if(cfg.dept)setv('cDept',cfg.dept);
-if(cfg.email)setv('cEmail',cfg.email);
+fillClaimFromCfg(true);
 setv('cWeek',mondayOf(today()));
 setv('cStatus','Draft');
 renderMil();renderSub();renderMisc();totals();updPill();updHome();updAlerts();
